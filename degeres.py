@@ -13,6 +13,12 @@ import io
 # ================= КОНФИГУРАЦИЯ =================
 st.set_page_config(page_title="Degeres Ecosystem", layout="wide", page_icon="🧬")
 
+# 🔴 ССЫЛКА НА ВИДЕО (ДЛЯ ВСЕХ ТОВАРОВ)
+GLOBAL_VIDEO_LINK = "https://youtu.be/bIEP0JWpNd0?si=hLIP6gEdg5TiEHSt"
+
+# 🔴 ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШУ ПОСЛЕ ДЕПЛОЯ (ДЛЯ QR НА ВХОДЕ)
+APP_URL = "https://degeres-ecosystem.streamlit.app"
+
 # ================= CSS (GLOBAL STYLES) =================
 st.markdown("""
 <style>
@@ -88,43 +94,43 @@ st.markdown("""
 
 # ================= STATE MANAGEMENT (БАЗА ДАННЫХ) =================
 if 'db_products' not in st.session_state:
+    # Инициализация демо-данных. У ВСЕХ прописана глобальная ссылка.
     st.session_state['db_products'] = [
-        # Демо-данные
         {
             "id": "BATCH-880", "farmer": "Хозяйство 'Адал'", "product": "Шубат", "amount": 50, "unit": "Литров",
-            "price": 60000, "status": "Verified", "score": 95, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (3.2°C)", "Сертифицировано (Score: 95)"], "temp": 3.2, "ph": 5.8, "video_uploaded": True, "video_link": "https://youtu.be/bIEP0JWpNd0?si=5VsJrDoH8UjPgwcs", "image_icon": "🥛"
+            "price": 60000, "status": "Verified", "score": 95, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (3.2°C)", "Сертифицировано (Score: 95)"], "temp": 3.2, "ph": 5.8, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🥛"
         },
         {
             "id": "BATCH-881", "farmer": "Ферма 'Родина'", "product": "Конина", "amount": 20, "unit": "Кг",
-            "price": 50000, "status": "Ready", "score": 0, "history": ["Создано фермером"], "temp": 0, "ph": 0, "video_uploaded": False, "video_link": None, "image_icon": "🥩"
+            "price": 50000, "status": "Ready", "score": 0, "history": ["Создано фермером"], "temp": 0, "ph": 0, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🥩"
         },
         {
             "id": "BATCH-882", "farmer": "Хозяйство 'Адал'", "product": "Говядина", "amount": 30, "unit": "Кг",
-            "price": 75000, "status": "Rejected", "score": 50, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (7.5°C)", "Отбраковано лабораторией"], "temp": 7.5, "ph": 6.2, "video_uploaded": True, "video_link": "https://youtu.be/bIEP0JWpNd0?si=5VsJrDoH8UjPgwcs", "image_icon": "🍖"
+            "price": 75000, "status": "Rejected", "score": 50, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (7.5°C)", "Отбраковано лабораторией"], "temp": 7.5, "ph": 6.2, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🍖"
         },
         {
             "id": "BATCH-883", "farmer": "Ферма 'Родина'", "product": "Кумыс", "amount": 15, "unit": "Литров",
-            "price": 18000, "status": "Ready", "score": 0, "history": ["Создано фермером"], "temp": 0, "ph": 0, "video_uploaded": False, "video_link": None, "image_icon": "🍶"
+            "price": 18000, "status": "Ready", "score": 0, "history": ["Создано фермером"], "temp": 0, "ph": 0, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🍶"
         },
         {
             "id": "BATCH-884", "farmer": "Хозяйство 'Жетісу'", "product": "Баранина", "amount": 25, "unit": "Кг",
-            "price": 65000, "status": "Verified", "score": 88, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (2.1°C)", "Сертифицировано (Score: 88)"], "temp": 2.1, "ph": 6.1, "video_uploaded": True, "video_link": "https://youtu.be/bIEP0JWpNd0?si=5VsJrDoH8UjPgwcs", "image_icon": "🐑"
+            "price": 65000, "status": "Verified", "score": 88, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (2.1°C)", "Сертифицировано (Score: 88)"], "temp": 2.1, "ph": 6.1, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🐑"
         },
         {
             "id": "BATCH-886", "farmer": "Хозяйство 'Алатау'", "product": "Молоко", "amount": 100, "unit": "Литров",
-            "price": 45000, "status": "Verified", "score": 92, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (1.5°C)", "Сертифицировано (Score: 92)"], "temp": 1.5, "ph": 6.5, "video_uploaded": True, "video_link": "https://youtu.be/bIEP0JWpNd0?si=5VsJrDoH8UjPgwcs", "image_icon": "🥛"
+            "price": 45000, "status": "Verified", "score": 92, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (1.5°C)", "Сертифицировано (Score: 92)"], "temp": 1.5, "ph": 6.5, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🥛"
         },
         {
             "id": "BATCH-887", "farmer": "Ферма 'Байлык'", "product": "Мед", "amount": 10, "unit": "Кг",
-            "price": 25000, "status": "At Hub", "score": 0, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (22.0°C)"], "temp": 22.0, "ph": 4.0, "video_uploaded": False, "video_link": None, "image_icon": "🍯"
+            "price": 25000, "status": "At Hub", "score": 0, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (22.0°C)"], "temp": 22.0, "ph": 4.0, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🍯"
         },
         {
             "id": "BATCH-888", "farmer": "Хозяйство 'Адал'", "product": "Конина", "amount": 15, "unit": "Кг",
-            "price": 40000, "status": "Verified", "score": 90, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (1.0°C)", "Сертифицировано (Score: 90)"], "temp": 1.0, "ph": 5.9, "video_uploaded": True, "video_link": "https://youtu.be/bIEP0JWpNd0?si=5VsJrDoH8UjPgwcs", "image_icon": "🥩"
+            "price": 40000, "status": "Verified", "score": 90, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (1.0°C)", "Сертифицировано (Score: 90)"], "temp": 1.0, "ph": 5.9, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🥩"
         },
         {
             "id": "BATCH-890", "farmer": "Хозяйство 'Алатау'", "product": "Овощи", "amount": 50, "unit": "Кг",
-            "price": 35000, "status": "Verified", "score": 85, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (8.0°C)", "Сертифицировано (Score: 85)"], "temp": 8.0, "ph": 6.8, "video_uploaded": False, "video_link": None, "image_icon": "🥕"
+            "price": 35000, "status": "Verified", "score": 85, "history": ["Создано фермером", "Водитель принял груз", "Доставлено в Хаб (8.0°C)", "Сертифицировано (Score: 85)"], "temp": 8.0, "ph": 6.8, "video_uploaded": True, "video_link": GLOBAL_VIDEO_LINK, "image_icon": "🥕"
         }
     ]
 
@@ -157,7 +163,11 @@ def login_screen():
         st.markdown("# Degeres Ecosystem")
         st.markdown("### Единая платформа продовольственной безопасности")
         st.markdown("---")
-        st.info("💡 **Совет для Демо:** Используйте кнопки быстрого входа ниже.")
+        
+        st.info("📱 **Мобильная версия:** Сканируйте, чтобы открыть на телефоне")
+        # Генерируем QR со ссылкой на приложение
+        qr_img = generate_qr(APP_URL)
+        st.image(qr_img, width=200)
 
     with c2:
         st.markdown("### Выберите роль для входа:")
@@ -266,7 +276,7 @@ def farmer_ui():
                     "temp": 0,
                     "ph": 0,
                     "video_uploaded": True,
-                    "video_link": "https://youtu.be/bIEP0JWpNd0?si=5VsJrDoH8UjPgwcs", # Demo link
+                    "video_link": GLOBAL_VIDEO_LINK, # ПРИСВАИВАЕМ ГЛОБАЛЬНУЮ ССЫЛКУ
                     "image_icon": "❓"
                 }
                 st.session_state['db_products'].append(new_item)
@@ -413,8 +423,9 @@ def hub_ui():
                         st.balloons()
                         st.success("ОДОБРЕНО!")
                         
-                        qr_data = item.get('video_link') if item.get('video_uploaded') else f"ID: {item['id']} Verified"
-                        st.image(generate_qr(qr_data), width=150, caption="QR-код продукта")
+                        # Генерируем QR код, ведущий на ВИДЕО
+                        qr_data = GLOBAL_VIDEO_LINK
+                        st.image(generate_qr(qr_data), width=150, caption="Видео производства (сканируй)")
                     else:
                         if not rejection_reason:
                             st.error("Укажите причину отбраковки!")
@@ -491,6 +502,8 @@ def client_ui():
                 st.text(f"⬇ {h}")
         with c2:
             st.success(f"Лаборатория: pH {v['ph']} | Temp {v['temp']}°C")
+            
+            # QR КОД ВЕДЕТ ПРЯМО НА ВАШЕ ВИДЕО
             if v.get('video_link'):
                 st.image(generate_qr(v['video_link']), width=200, caption="Видео производства (сканируй)")
             
