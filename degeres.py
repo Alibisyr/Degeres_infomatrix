@@ -43,7 +43,7 @@ st.markdown("""
 
     /* Глобальный цвет текста - ТЕМНЫЙ */
     h1, h2, h3, h4, h5, h6, p, div, span, label {
-        color: #fff !important;
+        color: #1a1a1a !important;
     }
 
     /* Карточки (контейнеры) */
