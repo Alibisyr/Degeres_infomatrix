@@ -1,11 +1,7 @@
-io
-PIL
-qrcode
-streamlit_folium
-folium
-altair
-datetime
-random
-time
-pandas
 streamlit
+pandas
+altair
+folium
+streamlit-folium
+qrcode
+Pillow
