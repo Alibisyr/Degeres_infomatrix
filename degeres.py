@@ -11,7 +11,12 @@ from PIL import Image
 import io
 
 # ================= КОНФИГУРАЦИЯ =================
-st.set_page_config(page_title="Degeres Ecosystem", layout="wide", page_icon="🧬")
+st.set_page_config(
+    page_title="Degeres Ecosystem", 
+    layout="wide", 
+    page_icon="🧬",
+    initial_sidebar_state="collapsed" # <--- Скрываем меню слева по умолчанию
+)
 
 # 🔴 ССЫЛКА НА ВИДЕО (ДЛЯ ВСЕХ ТОВАРОВ)
 GLOBAL_VIDEO_LINK = "https://youtu.be/bIEP0JWpNd0?si=hLIP6gEdg5TiEHSt"
@@ -19,38 +24,43 @@ GLOBAL_VIDEO_LINK = "https://youtu.be/bIEP0JWpNd0?si=hLIP6gEdg5TiEHSt"
 # ================= CSS (GLOBAL STYLES - ВЫСОКИЙ КОНТРАСТ) =================
 st.markdown("""
 <style>
-    /* Основной фон приложения - очень светлый серый */
+    /* 1. Убираем верхний хедер (черную полосу) и отступы */
+    [data-testid="stHeader"] {
+        display: none;
+    }
+    
+    /* Основной фон приложения */
     .stApp {
         background-color: #f0f2f6;
         font-family: 'Inter', 'Helvetica Neue', sans-serif;
     }
 
-    /* Глобальный цвет текста - ТЕМНЫЙ, почти черный для четкости */
+    /* Глобальный цвет текста - ТЕМНЫЙ */
     h1, h2, h3, h4, h5, h6, p, div, span, label {
         color: #1a1a1a !important;
     }
 
-    /* Карточки (контейнеры) - Чисто белый фон с тенью */
+    /* Карточки (контейнеры) */
     div.css-1r6slb0, div.stContainer, div[data-testid="column"] > div {
         background-color: #ffffff;
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Более заметная тень */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         border: 1px solid #dee2e6;
     }
 
-    /* Исправление видимости Метрик (Safety Score и т.д.) */
+    /* Исправление видимости Метрик */
     div[data-testid="stMetricLabel"] label {
-        color: #444444 !important; /* Цвет заголовка метрики */
+        color: #444444 !important;
         font-weight: 600;
         font-size: 1rem;
     }
     div[data-testid="stMetricValue"] div {
-        color: #000000 !important; /* Цвет значения метрики - черный */
+        color: #000000 !important;
         font-weight: 700;
     }
 
-    /* Кнопки - Яркий зеленый */
+    /* Кнопки */
     .stButton>button {
         border-radius: 8px;
         font-weight: 700;
@@ -58,7 +68,7 @@ st.markdown("""
         width: 100%;
         padding: 12px 20px;
         background-color: #28a745; 
-        color: white !important; /* Текст на кнопке всегда белый */
+        color: white !important;
         transition: all 0.2s;
     }
     .stButton>button:hover {
@@ -67,7 +77,7 @@ st.markdown("""
         color: white !important;
     }
 
-    /* Вкладки (Tabs) */
+    /* Вкладки */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
         background-color: #ffffff;
@@ -83,14 +93,14 @@ st.markdown("""
         color: #333 !important;
     }
     .stTabs [data-baseweb="tab"][aria-selected="true"] {
-        background-color: #e8f5e9; /* Светло-зеленый активный таб */
+        background-color: #e8f5e9;
         border-color: #28a745;
         font-weight: bold;
     }
 
-    /* Отступы */
+    /* Отступы контента (поднимаем выше, так как хедера нет) */
     .block-container {
-        padding-top: 2rem;
+        padding-top: 1rem;
         padding-bottom: 5rem;
     }
 </style>
@@ -145,8 +155,8 @@ def get_status_color(status):
     if status == "Ready": return "orange"
     if status == "In Transit": return "blue"
     if status == "At Hub": return "purple"
-    if status == "Verified": return "#d4edda" # Очень светлый зеленый
-    if status == "Rejected": return "#f8d7da" # Очень светлый красный
+    if status == "Verified": return "#d4edda" 
+    if status == "Rejected": return "#f8d7da" 
     return "gray"
 
 def generate_qr(data):
@@ -166,7 +176,7 @@ def login_screen():
         st.markdown("# Degeres Ecosystem")
         st.markdown("### Единая платформа продовольственной безопасности")
         st.markdown("---")
-        st.info("💡 **Совет для Демо:** Используйте кнопки быстрого входа.")
+        # QR код убран по просьбе
 
     with c2:
         st.markdown("### Выберите роль для входа:")
@@ -492,8 +502,6 @@ def client_ui():
                 st.text(f"⬇ {h}")
         with c2:
             st.success(f"Лаборатория: pH {v['ph']} | Temp {v['temp']}°C")
-            
-            # QR КОД ВЕДЕТ ПРЯМО НА ВАШЕ ВИДЕО
             if v.get('video_link'):
                 st.image(generate_qr(v['video_link']), width=200, caption="Видео производства (сканируй)")
             
@@ -512,3 +520,4 @@ elif st.session_state['user_session'] == 'client':
     client_ui()
 else:
     login_screen()
+    
