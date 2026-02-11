@@ -15,7 +15,7 @@ st.set_page_config(
     page_title="Degeres Ecosystem", 
     layout="wide", 
     page_icon="🧬",
-    initial_sidebar_state="collapsed" # <--- Скрываем меню слева по умолчанию
+    initial_sidebar_state="collapsed" # <--- Меню скрыто при старте
 )
 
 # 🔴 ССЫЛКА НА ВИДЕО (ДЛЯ ВСЕХ ТОВАРОВ)
@@ -24,11 +24,17 @@ GLOBAL_VIDEO_LINK = "https://youtu.be/bIEP0JWpNd0?si=hLIP6gEdg5TiEHSt"
 # ================= CSS (GLOBAL STYLES - ВЫСОКИЙ КОНТРАСТ) =================
 st.markdown("""
 <style>
-    /* 1. Убираем верхний хедер (черную полосу) и отступы */
+    /* ИСПРАВЛЕНИЕ: Не скрываем хедер полностью, а делаем прозрачным */
     [data-testid="stHeader"] {
-        display: none;
+        background-color: rgba(0,0,0,0); /* Прозрачный фон */
+        color: #1a1a1a;
     }
     
+    /* Скрываем только цветную декоративную полоску сверху */
+    [data-testid="stDecoration"] {
+        display: none;
+    }
+
     /* Основной фон приложения */
     .stApp {
         background-color: #f0f2f6;
@@ -98,9 +104,9 @@ st.markdown("""
         font-weight: bold;
     }
 
-    /* Отступы контента (поднимаем выше, так как хедера нет) */
+    /* Отступы контента */
     .block-container {
-        padding-top: 1rem;
+        padding-top: 3rem; /* Чуть больше отступ, чтобы не наезжало на кнопку меню */
         padding-bottom: 5rem;
     }
 </style>
@@ -155,8 +161,8 @@ def get_status_color(status):
     if status == "Ready": return "orange"
     if status == "In Transit": return "blue"
     if status == "At Hub": return "purple"
-    if status == "Verified": return "#d4edda" 
-    if status == "Rejected": return "#f8d7da" 
+    if status == "Verified": return "#d4edda" # Очень светлый зеленый
+    if status == "Rejected": return "#f8d7da" # Очень светлый красный
     return "gray"
 
 def generate_qr(data):
@@ -502,6 +508,8 @@ def client_ui():
                 st.text(f"⬇ {h}")
         with c2:
             st.success(f"Лаборатория: pH {v['ph']} | Temp {v['temp']}°C")
+            
+            # QR КОД ВЕДЕТ ПРЯМО НА ВАШЕ ВИДЕО
             if v.get('video_link'):
                 st.image(generate_qr(v['video_link']), width=200, caption="Видео производства (сканируй)")
             
