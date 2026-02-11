@@ -15,98 +15,117 @@ st.set_page_config(
     page_title="Degeres Ecosystem", 
     layout="wide", 
     page_icon="🧬",
-    initial_sidebar_state="collapsed" # <--- Меню скрыто при старте
+    initial_sidebar_state="collapsed" # <--- Меню скрыто по умолчанию
 )
 
 # 🔴 ССЫЛКА НА ВИДЕО (ДЛЯ ВСЕХ ТОВАРОВ)
 GLOBAL_VIDEO_LINK = "https://youtu.be/bIEP0JWpNd0?si=hLIP6gEdg5TiEHSt"
 
-# ================= CSS (GLOBAL STYLES - ВЫСОКИЙ КОНТРАСТ) =================
+# ================= CSS (GLOBAL STYLES - FIX COLORS) =================
 st.markdown("""
 <style>
-    /* ИСПРАВЛЕНИЕ: Не скрываем хедер полностью, а делаем прозрачным */
+    /* 1. Настройка фона и скрытие хедера */
     [data-testid="stHeader"] {
-        background-color: rgba(0,0,0,0); /* Прозрачный фон */
-        color: #1a1a1a;
+        background-color: rgba(0,0,0,0);
     }
-    
-    /* Скрываем только цветную декоративную полоску сверху */
     [data-testid="stDecoration"] {
         display: none;
     }
-
-    /* Основной фон приложения */
     .stApp {
-        background-color: #f0f2f6;
-        font-family: 'Inter', 'Helvetica Neue', sans-serif;
+        background-color: #f4f6f9; /* Светло-серый приятный фон */
+        color: #000000;
     }
 
-    /* Глобальный цвет текста - ТЕМНЫЙ */
-    h1, h2, h3, h4, h5, h6, p, div, span, label {
-        color: #1a1a1a !important;
+    /* 2. Настройка Боковой панели (делаем её светлой) */
+    section[data-testid="stSidebar"] {
+        background-color: #ffffff;
+        border-right: 1px solid #e0e0e0;
+    }
+    section[data-testid="stSidebar"] h1, 
+    section[data-testid="stSidebar"] h2, 
+    section[data-testid="stSidebar"] span, 
+    section[data-testid="stSidebar"] p {
+        color: #000000 !important;
     }
 
-    /* Карточки (контейнеры) */
+    /* 3. ГЛОБАЛЬНЫЙ ТЕКСТ (Черный) */
+    h1, h2, h3, h4, h5, h6, p, li, .stMarkdown {
+        color: #111111 !important;
+    }
+    
+    /* 4. ИСПРАВЛЕНИЕ ПОЛЕЙ ВВОДА (Чтобы они были белыми, а не черными) */
+    /* Input fields (Text, Number) */
+    div[data-baseweb="input"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #ced4da;
+    }
+    input {
+        color: #000000 !important;
+    }
+    /* Selectbox (Dropdown) */
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #ced4da;
+    }
+    /* Текст внутри Selectbox */
+    div[data-baseweb="select"] span {
+        color: #000000 !important;
+    }
+    /* Labels (Названия полей) */
+    label, .stInput > label {
+        color: #333333 !important;
+        font-weight: 600;
+    }
+
+    /* 5. Карточки и контейнеры */
     div.css-1r6slb0, div.stContainer, div[data-testid="column"] > div {
         background-color: #ffffff;
-        border-radius: 12px;
+        border-radius: 15px;
         padding: 20px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border: 1px solid #dee2e6;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1px solid #e0e0e0;
     }
 
-    /* Исправление видимости Метрик */
-    div[data-testid="stMetricLabel"] label {
-        color: #444444 !important;
-        font-weight: 600;
-        font-size: 1rem;
-    }
-    div[data-testid="stMetricValue"] div {
+    /* 6. Метрики (Рейтинг, Цифры) */
+    div[data-testid="stMetricValue"] {
         color: #000000 !important;
-        font-weight: 700;
+    }
+    div[data-testid="stMetricLabel"] {
+        color: #555555 !important;
     }
 
-    /* Кнопки */
+    /* 7. Кнопки */
     .stButton>button {
-        border-radius: 8px;
-        font-weight: 700;
-        border: none;
-        width: 100%;
-        padding: 12px 20px;
-        background-color: #28a745; 
+        background-color: #2E7D32; /* Зеленый */
         color: white !important;
-        transition: all 0.2s;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
     }
     .stButton>button:hover {
-        background-color: #218838;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        background-color: #1B5E20;
         color: white !important;
+        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
     }
 
-    /* Вкладки */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
+    /* 8. File Uploader (Загрузка файлов) */
+    div[data-testid="stFileUploader"] {
         background-color: #ffffff;
-        padding: 10px;
         border-radius: 10px;
+        padding: 10px;
     }
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        white-space: nowrap;
-        background-color: #f8f9fa;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        color: #333 !important;
+    div[data-testid="stFileUploader"] section {
+        background-color: #f8f9fa !important; /* Светло-серый фон зоны загрузки */
     }
-    .stTabs [data-baseweb="tab"][aria-selected="true"] {
-        background-color: #e8f5e9;
-        border-color: #28a745;
-        font-weight: bold;
+    div[data-testid="stFileUploader"] span {
+        color: #333333 !important;
     }
 
-    /* Отступы контента */
     .block-container {
-        padding-top: 3rem; /* Чуть больше отступ, чтобы не наезжало на кнопку меню */
+        padding-top: 2rem;
         padding-bottom: 5rem;
     }
 </style>
@@ -161,8 +180,8 @@ def get_status_color(status):
     if status == "Ready": return "orange"
     if status == "In Transit": return "blue"
     if status == "At Hub": return "purple"
-    if status == "Verified": return "#d4edda" # Очень светлый зеленый
-    if status == "Rejected": return "#f8d7da" # Очень светлый красный
+    if status == "Verified": return "#d4edda" 
+    if status == "Rejected": return "#f8d7da" 
     return "gray"
 
 def generate_qr(data):
@@ -182,7 +201,7 @@ def login_screen():
         st.markdown("# Degeres Ecosystem")
         st.markdown("### Единая платформа продовольственной безопасности")
         st.markdown("---")
-        # QR код убран по просьбе
+        # QR код убран
 
     with c2:
         st.markdown("### Выберите роль для входа:")
@@ -528,4 +547,3 @@ elif st.session_state['user_session'] == 'client':
     client_ui()
 else:
     login_screen()
-    
