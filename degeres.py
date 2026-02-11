@@ -16,85 +16,88 @@ st.set_page_config(page_title="Degeres Ecosystem", layout="wide", page_icon="�
 # 🔴 ССЫЛКА НА ВИДЕО (ДЛЯ ВСЕХ ТОВАРОВ)
 GLOBAL_VIDEO_LINK = "https://youtu.be/bIEP0JWpNd0?si=hLIP6gEdg5TiEHSt"
 
-# 🔴 ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШУ ПОСЛЕ ДЕПЛОЯ (ДЛЯ QR НА ВХОДЕ)
-APP_URL = "https://degeres-ecosystem.streamlit.app"
-
-# ================= CSS (GLOBAL STYLES) =================
+# ================= CSS (GLOBAL STYLES - ВЫСОКИЙ КОНТРАСТ) =================
 st.markdown("""
 <style>
-    /* Глобальный стиль - Чистый Apple/SaaS дизайн */
+    /* Основной фон приложения - очень светлый серый */
     .stApp {
-        background-color: #f8f9fa;
+        background-color: #f0f2f6;
         font-family: 'Inter', 'Helvetica Neue', sans-serif;
-        color: #212529;
     }
 
-    /* Карточки с тенями */
-    div.css-1r6slb0, div.stContainer, div[data-testid="column"] {
+    /* Глобальный цвет текста - ТЕМНЫЙ, почти черный для четкости */
+    h1, h2, h3, h4, h5, h6, p, div, span, label {
+        color: #1a1a1a !important;
+    }
+
+    /* Карточки (контейнеры) - Чисто белый фон с тенью */
+    div.css-1r6slb0, div.stContainer, div[data-testid="column"] > div {
         background-color: #ffffff;
-        border-radius: 14px;
+        border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-        border: 1px solid #e0e0e0;
-        margin-bottom: 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Более заметная тень */
+        border: 1px solid #dee2e6;
     }
 
-    /* Заголовки */
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Inter', 'Helvetica Neue', sans-serif;
-        font-weight: 700;
-        color: #343a40;
-        margin-top: 1.5rem;
-        margin-bottom: 1rem;
-    }
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    h3 { font-size: 1.75rem; }
-
-    /* Кнопки */
-    .stButton>button {
-        border-radius: 10px;
+    /* Исправление видимости Метрик (Safety Score и т.д.) */
+    div[data-testid="stMetricLabel"] label {
+        color: #444444 !important; /* Цвет заголовка метрики */
         font-weight: 600;
+        font-size: 1rem;
+    }
+    div[data-testid="stMetricValue"] div {
+        color: #000000 !important; /* Цвет значения метрики - черный */
+        font-weight: 700;
+    }
+
+    /* Кнопки - Яркий зеленый */
+    .stButton>button {
+        border-radius: 8px;
+        font-weight: 700;
         border: none;
-        transition: all 0.2s ease-in-out;
         width: 100%;
-        padding: 10px 15px;
-        cursor: pointer;
-        background-color: #2E7D32;
-        color: white;
+        padding: 12px 20px;
+        background-color: #28a745; 
+        color: white !important; /* Текст на кнопке всегда белый */
+        transition: all 0.2s;
     }
     .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        filter: brightness(110%);
-    }
-    .stButton>button:active {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        background-color: #218838;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        color: white !important;
     }
 
-    /* Отступы */
-    .block-container {
-        padding-top: 3rem;
-        padding-bottom: 3rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
+    /* Вкладки (Tabs) */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 20px;
+        gap: 10px;
+        background-color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
     }
     .stTabs [data-baseweb="tab"] {
         height: 50px;
         white-space: nowrap;
-        border-bottom: 1px solid #ced4da;
-        padding: 0px 20px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        color: #333 !important;
+    }
+    .stTabs [data-baseweb="tab"][aria-selected="true"] {
+        background-color: #e8f5e9; /* Светло-зеленый активный таб */
+        border-color: #28a745;
+        font-weight: bold;
+    }
+
+    /* Отступы */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 5rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ================= STATE MANAGEMENT (БАЗА ДАННЫХ) =================
 if 'db_products' not in st.session_state:
-    # Инициализация демо-данных. У ВСЕХ прописана глобальная ссылка.
     st.session_state['db_products'] = [
         {
             "id": "BATCH-880", "farmer": "Хозяйство 'Адал'", "product": "Шубат", "amount": 50, "unit": "Литров",
@@ -142,8 +145,8 @@ def get_status_color(status):
     if status == "Ready": return "orange"
     if status == "In Transit": return "blue"
     if status == "At Hub": return "purple"
-    if status == "Verified": return "#D4EDDA" # Светло-зеленый
-    if status == "Rejected": return "#F8D7DA" # Светло-красный
+    if status == "Verified": return "#d4edda" # Очень светлый зеленый
+    if status == "Rejected": return "#f8d7da" # Очень светлый красный
     return "gray"
 
 def generate_qr(data):
@@ -163,11 +166,7 @@ def login_screen():
         st.markdown("# Degeres Ecosystem")
         st.markdown("### Единая платформа продовольственной безопасности")
         st.markdown("---")
-        
-        st.info("📱 **Мобильная версия:** Сканируйте, чтобы открыть на телефоне")
-        # Генерируем QR со ссылкой на приложение
-        qr_img = generate_qr(APP_URL)
-        st.image(qr_img, width=200)
+        st.info("💡 **Совет для Демо:** Используйте кнопки быстрого входа.")
 
     with c2:
         st.markdown("### Выберите роль для входа:")
@@ -177,7 +176,7 @@ def login_screen():
         with col_farmer:
             with st.container():
                 st.markdown("**👨‍🌾 Фермер**")
-                st.caption("Создавайте и управляйте заявками на поставку продукции.")
+                st.caption("Создавайте и управляйте заявками на поставку.")
                 if st.button("Войти как Фермер", key='login_farmer'):
                     st.session_state['user_session'] = 'farmer'
                     st.rerun()
@@ -185,7 +184,7 @@ def login_screen():
         with col_driver:
             with st.container():
                 st.markdown("**🚕 Водитель**")
-                st.caption("Принимайте и доставляйте продукцию до хабов.")
+                st.caption("Принимайте и доставляйте продукцию.")
                 if st.button("Войти как Водитель", key='login_driver'):
                     st.session_state['user_session'] = 'driver'
                     st.rerun()
@@ -193,7 +192,7 @@ def login_screen():
         with col_hub:
             with st.container():
                 st.markdown("**🛡️ Хаб/Лаборатория**")
-                st.caption("Проверяйте качество и безопасность поставляемой продукции.")
+                st.caption("Проверяйте качество и безопасность.")
                 if st.button("Войти как Хаб", key='login_hub'):
                     st.session_state['user_session'] = 'hub'
                     st.rerun()
@@ -208,8 +207,6 @@ def login_screen():
 
 # ================= ЭКРАН 1: ФЕРМЕР =================
 def farmer_ui():
-    st.markdown("""<style>.stButton>button {background: linear-gradient(90deg, #2E7D32, #43A047); color: white;}</style>""", unsafe_allow_html=True)
-
     with st.sidebar:
         st.title("👨‍🌾 Фермер")
         if st.button("⬅ Выйти"):
@@ -229,25 +226,25 @@ def farmer_ui():
     average_score = sum(scores) / len(scores) if scores else 0
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Общее количество поставок", total_deliveries)
-    col2.metric("Продукция в пути", products_in_transit)
-    col3.metric("Успешно проверено", successfully_verified)
-    col4.metric("Средний балл", f"{average_score:.1f}")
+    col1.metric("Всего поставок", total_deliveries)
+    col2.metric("В пути", products_in_transit)
+    col3.metric("Проверено", successfully_verified)
+    col4.metric("Ср. рейтинг", f"{average_score:.1f}")
 
     st.markdown("---")
     st.subheader("📤 Новая поставка")
 
     with st.container():
-        farmer_name_input = st.text_input("Название вашего хозяйства", value="Хозяйство 'Береке'")
+        farmer_name_input = st.text_input("Название хозяйства", value="Хозяйство 'Береке'")
         c1, c2 = st.columns(2)
         with c1:
             prod = st.selectbox("Продукт", ["Конина", "Говядина", "Кумыс", "Шубат", "Баранина", "Сыры", "Молоко", "Мед", "Курт", "Овощи"], key="new_product_select")
             amount = st.number_input("Объем", min_value=1, value=10, key="new_amount_input")
         with c2:
-            unit = st.selectbox("Единица измерения", ["Кг", "Литров"], key="new_unit_select")
+            unit = st.selectbox("Единица", ["Кг", "Литров"], key="new_unit_select")
             price_per_unit = st.number_input("Цена за единицу (₸)", min_value=100, value=2500, step=100, key="new_price_per_unit")
             total_price_calculated = amount * price_per_unit
-            st.info(f"Расчетная общая цена: {total_price_calculated} ₸")
+            st.success(f"Расчетная общая цена: **{total_price_calculated} ₸**")
 
         photo_uploaded = st.file_uploader("Фото продукта (обязательно)", type=['jpg', 'png'], key="new_photo_uploader")
         video_uploaded_file = st.file_uploader("Видео процесса (обязательно)", type=['mp4'], key="new_video_uploader")
@@ -276,7 +273,7 @@ def farmer_ui():
                     "temp": 0,
                     "ph": 0,
                     "video_uploaded": True,
-                    "video_link": GLOBAL_VIDEO_LINK, # ПРИСВАИВАЕМ ГЛОБАЛЬНУЮ ССЫЛКУ
+                    "video_link": GLOBAL_VIDEO_LINK, 
                     "image_icon": "❓"
                 }
                 st.session_state['db_products'].append(new_item)
@@ -312,8 +309,6 @@ def farmer_ui():
 
 # ================= ЭКРАН 2: ВОДИТЕЛЬ =================
 def driver_ui():
-    st.markdown("""<style>.stButton>button {background: linear-gradient(90deg, #1565C0, #1976D2); color: white;}</style>""", unsafe_allow_html=True)
-
     with st.sidebar:
         st.title("🚕 Водитель")
         if st.button("⬅ Выйти"):
@@ -375,8 +370,6 @@ def driver_ui():
 
 # ================= ЭКРАН 3: ХАБ =================
 def hub_ui():
-    st.markdown("""<style>.stButton>button {background: linear-gradient(90deg, #6200EA, #7C4DFF); color: white;}</style>""", unsafe_allow_html=True)
-
     with st.sidebar:
         st.title("🛡️ Хаб")
         if st.button("⬅ Выйти"):
@@ -423,9 +416,8 @@ def hub_ui():
                         st.balloons()
                         st.success("ОДОБРЕНО!")
                         
-                        # Генерируем QR код, ведущий на ВИДЕО
-                        qr_data = GLOBAL_VIDEO_LINK
-                        st.image(generate_qr(qr_data), width=150, caption="Видео производства (сканируй)")
+                        qr_data = item.get('video_link') if item.get('video_uploaded') else f"ID: {item['id']} Verified"
+                        st.image(generate_qr(qr_data), width=150, caption="QR-код продукта")
                     else:
                         if not rejection_reason:
                             st.error("Укажите причину отбраковки!")
@@ -448,8 +440,6 @@ def hub_ui():
 
 # ================= ЭКРАН 4: ПОКУПАТЕЛЬ =================
 def client_ui():
-    st.markdown("""<style>.stButton>button {background: linear-gradient(90deg, #FF9800, #F57C00); color: white;}</style>""", unsafe_allow_html=True)
-
     with st.sidebar:
         st.title("🛒 Магазин")
         if st.button("⬅ Выйти"):
